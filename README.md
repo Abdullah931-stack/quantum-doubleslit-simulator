@@ -26,11 +26,11 @@ An interactive, high-fidelity desktop simulator that models the wave-particle du
 * `custom_gl_view.py`: OpenGL 3D surface widget subclass.
 * `test_verification.py`: Automated physical verification and performance validation suite.
 * `requirements.txt`: Package dependencies.
-* **[Docs/](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/Docs/)**:
-  * [README.md](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/Docs/README.md): Detailed programmatic and technical architecture guide.
-  * [Scientific_Documentation.md](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/Docs/Scientific_Documentation.md): Academic physics documentation mapping formulas to code.
-  * [theory.md](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/Docs/theory.md): Physics paper documenting wave equations, ASM propagation, and quantum measurement.
-  * [user_guide.md](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/Docs/user_guide.md): Operational guide with user interface controls and paraxial calibration checks.
+* **[Docs/](file:///D:/Projects/quantum-doubleslit-simulator/Docs/)**:
+  * [README.md](file:///D:/Projects/quantum-doubleslit-simulator/Docs/README.md): Detailed programmatic and technical architecture guide.
+  * [Scientific_Documentation.md](file:///D:/Projects/quantum-doubleslit-simulator/Docs/Scientific_Documentation.md): Academic physics documentation mapping formulas to code.
+  * [theory.md](file:///D:/Projects/quantum-doubleslit-simulator/Docs/theory.md): Physics paper documenting wave equations, ASM propagation, and quantum measurement.
+  * [user_guide.md](file:///D:/Projects/quantum-doubleslit-simulator/Docs/user_guide.md): Operational guide with user interface controls and paraxial calibration checks.
 
 ---
 

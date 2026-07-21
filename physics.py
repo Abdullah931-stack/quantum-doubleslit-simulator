@@ -200,6 +200,7 @@ def compute_simulation_data(model_type, params, resolution_mode, check_abort=Non
             Phi_static += sec_amp * sec_w * sinc_sec_2d * np.exp(1j * (k * r_sec + sec_phase)) / np.sqrt(r_sec) * K_sec_2d
             
     else:  # 'numerical' (High Fidelity Angular Spectrum Method - ASM)
+        if check_abort and check_abort(): return None, None, None, None, None
         # 1. Determine target dx_space to resolve the smallest slit (Adaptive Grid Resampling)
         w_min = 0.0004  # Default 0.4mm
         if active_slits:
@@ -253,6 +254,7 @@ def compute_simulation_data(model_type, params, resolution_mode, check_abort=Non
         
         # Propagate each active slit individually (Sub-pixel Oversampling)
         for slit in active_slits:
+            if check_abort and check_abort(): return None, None, None, None, None
             xj = float(slit['x'])
             wj = float(slit['w'])
             x_left = xj - wj / 2.0
@@ -272,6 +274,7 @@ def compute_simulation_data(model_type, params, resolution_mode, check_abort=Non
             psi_slits.append(U_prop_j)
             
         if params['sec_active']:
+            if check_abort and check_abort(): return None, None, None, None, None
             sec_x = float(params['sec_x'])
             sec_w = float(params['sec_w'])
             sec_phase = float(params['sec_phase'])
@@ -302,10 +305,13 @@ def compute_simulation_data(model_type, params, resolution_mode, check_abort=Non
         # Re-map psi_slits to the display grid as well for Bayesian origin sampling
         psi_slits_mapped = []
         for psi_p in psi_slits:
+            if check_abort and check_abort(): return None, None, None, None, None
             psi_r = np.interp(x_grid, x_pad_screen, psi_p.real)
             psi_i = np.interp(x_grid, x_pad_screen, psi_p.imag)
             psi_slits_mapped.append(psi_r + 1j * psi_i)
         params['psi_slits'] = psi_slits_mapped
+        
+        if check_abort and check_abort(): return None, None, None, None, None
         
         # --- 2D Space ---
         dx_space_default = screen_width / n_space
@@ -320,6 +326,7 @@ def compute_simulation_data(model_type, params, resolution_mode, check_abort=Non
         # Build initial aperture mask U0_space
         U0_space = np.zeros(M_space, dtype=np.complex128)
         for slit in active_slits:
+            if check_abort and check_abort(): return None, None, None, None, None
             xj = float(slit['x'])
             wj = float(slit['w'])
             x_left = xj - wj / 2.0
@@ -331,6 +338,7 @@ def compute_simulation_data(model_type, params, resolution_mode, check_abort=Non
             U0_space += wj * fraction
             
         if params['sec_active']:
+            if check_abort and check_abort(): return None, None, None, None, None
             sec_x = float(params['sec_x'])
             sec_w = float(params['sec_w'])
             sec_phase = float(params['sec_phase'])
@@ -343,6 +351,8 @@ def compute_simulation_data(model_type, params, resolution_mode, check_abort=Non
             fraction_sec = overlap_sec / dx_space
             U0_space += sec_amp * sec_w * fraction_sec * np.exp(1j * sec_phase)
             
+        if check_abort and check_abort(): return None, None, None, None, None
+        
         # 2. Transform to Spatial Frequency Domain
         A0_space = np.fft.fftshift(np.fft.fft(np.fft.ifftshift(U0_space)))
         freqs_space = np.fft.fftshift(np.fft.fftfreq(M_space, d=dx_space))
@@ -378,12 +388,15 @@ def compute_simulation_data(model_type, params, resolution_mode, check_abort=Non
         
         A_prop = A0_space[np.newaxis, :] * H_2d
         
+        if check_abort and check_abort(): return None, None, None, None, None
+        
         # 4. Take inverse FFT along transverse axis (axis 1)
         U_prop = np.fft.fftshift(np.fft.ifft(np.fft.ifftshift(A_prop, axes=1), axis=1), axes=1)
         
         # Interpolate the real and imaginary parts back to the display grid x_space
         Phi_static = np.zeros((n_space, n_space), dtype=np.complex128)
         for i in range(n_space):
+            if i % 10 == 0 and check_abort and check_abort(): return None, None, None, None, None
             Phi_real_interp = np.interp(x_space, x_pad_space, U_prop[i, :].real)
             Phi_imag_interp = np.interp(x_space, x_pad_space, U_prop[i, :].imag)
             Phi_static[i, :] = Phi_real_interp + 1j * Phi_imag_interp

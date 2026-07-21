@@ -20,7 +20,7 @@ Where:
 * $K(\theta) = \frac{1}{2} (1 + \cos\theta) = \frac{1}{2} \left(1 + \frac{L}{d_j}\right)$ is the Kirchhoff obliquity factor.
 * $w_j$ is the slit width scaling factor representing the amplitude weight.
 
-#### Code Mapping in [physics.py](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/physics.py)
+#### Code Mapping in [physics.py](file:///D:/Projects/quantum-doubleslit-simulator/physics.py)
 * **Equation variables**: Lines 127–134 calculate `d_j`, `sin_theta`, `sinc_env` (using NumPy's normalized `np.sinc` function), and `K`.
 * **Field accumulation**: Line 137 adds the amplitude-weighted slit contribution:
   ```python
@@ -48,7 +48,7 @@ When $|f_x| > \frac{1}{\lambda}$, the term inside the square root becomes negati
 * **Filter Rule**:
   $$H(f_x, y) = 0 \quad \text{for } |f_x| > \frac{1}{\lambda}$$
 
-#### Code Mapping in [physics.py](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/physics.py)
+#### Code Mapping in [physics.py](file:///D:/Projects/quantum-doubleslit-simulator/physics.py)
 * **Evanescent evaluation**: Lines 228–234 compute the propagating $y$-wavevector $k_y$:
   ```python
   ky_sq_screen = k**2 - k_x_screen**2
@@ -68,7 +68,7 @@ $$f_{x, \text{limit}}(y) = \frac{1}{\lambda \sqrt{1 + \left(\frac{2 y}{W_{\text{
 
 Where $W_{\text{comp}} = M \cdot dx$ is the physical width of the padded computational grid.
 
-#### Code Mapping in [physics.py](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/physics.py)
+#### Code Mapping in [physics.py](file:///D:/Projects/quantum-doubleslit-simulator/physics.py)
 * **Frequency Limit**: Line 240 calculates the dynamic bandlimit for the screen plane:
   ```python
   f_limit_screen = 1.0 / (wavelength * np.sqrt(1.0 + (2.0 * L / (M_screen * dx_screen))**2))
@@ -83,7 +83,7 @@ $$w(f) = \begin{cases}
       0.0 & |f| > f_{\text{limit}}
    \end{cases}$$
 
-#### Code Mapping in [physics.py](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/physics.py)
+#### Code Mapping in [physics.py](file:///D:/Projects/quantum-doubleslit-simulator/physics.py)
 * **Filter construction**: Lines 244–248 implement this smooth window, applying it directly to the screen transfer function on line 250:
   ```python
   transition_mask_screen = (f_abs_screen >= 0.9 * f_limit_screen) & (f_abs_screen <= f_limit_screen)
@@ -106,7 +106,7 @@ Where $x_{\text{left}} = x_j - \frac{w_j}{2}$ and $x_{\text{right}} = x_j + \fra
 
 $$U_0(x_i) = w_j \cdot \text{Fraction}(x_i)$$
 
-#### Code Mapping in [physics.py](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/physics.py)
+#### Code Mapping in [physics.py](file:///D:/Projects/quantum-doubleslit-simulator/physics.py)
 * **Slit area calculation**: Lines 262–267 compute the exact fractional overlap:
   ```python
   overlap = np.clip(np.minimum(x_pad_screen + dx_screen / 2.0, x_right) - 
@@ -125,7 +125,7 @@ $$P(\text{Slit}_j \mid x_{\text{final}}) = \frac{|\psi_j(x_{\text{final}})|^2}{\
 
 Where $\psi_j(x)$ is the individual complex wavefunction contribution from slit $j$ propagated to the screen plane.
 
-#### Code Mapping in [gui.py](file:///C:/Users/Abdullah/OneDrive/Desktop/test-project/gui.py)
+#### Code Mapping in [gui.py](file:///D:/Projects/quantum-doubleslit-simulator/gui.py)
 * **Local probability calculation**: Lines 847–860 lookup the pre-computed individual wavefunctions `psi_slits` at the nearest screen coordinate index `idx`, compute the conditional probabilities, and sample the source slit:
   ```python
   # Calculate local intensity for each slit at this landing position (Bayesian Origin Sampling)
