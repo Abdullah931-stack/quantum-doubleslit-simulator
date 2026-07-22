@@ -37,7 +37,7 @@ An interactive, high-fidelity desktop simulator that models the wave-particle du
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/quantum-doubleslit-simulator.git
+   git clone https://github.com/Abdullah931-stack/quantum-doubleslit-simulator.git
    cd quantum-doubleslit-simulator
    ```
 2. Install dependencies:
